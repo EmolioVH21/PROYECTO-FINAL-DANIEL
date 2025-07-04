@@ -1,0 +1,36 @@
+##Primer script
+* Como primer script se utilizará esearch -db nucleotide -query "Oxybelis[Organism] AND 16S[Title]" | efetch -format fasta > Oxybelis_16S.fasta este busca descargar todos los datos relacionados con el gen 16S en oxybelis
+* Se podría utilizar datasets con el comando ./datasets download gene symbol 16S taxon oxybelis --filename 16S_EmilioValdiviezo, sin embargo esto no sirve con genes ribosomales
+
+## Con el comando anterior ya tendríamos los archivos transformados a fasta, por lo que ahora es necesario alinearlo con muscle, para eso se ocupa el siguiente comando
+
+* ./muscle3.8.31_i86linux64 -in Oxybelis_16S.fasta -out Oxybelis_16S.fasta.muscle -maxiters 1 -diags
+
+## luego se debe hacer uso de iqtree con el siguiente comando
+* for filename in muscle_*
+* > do
+* > iqtree2 -s $filename
+* > done
+
+#También puede funcionar el comando 
+* iqtree2 -s Oxybelis_16S.fasta_EMILIO.muscle -nt AUTO -m MFP -bb 1000 -alrt 100
+
+* -s: tu archivo de entrada alineado.
+
+* -nt AUTO: usa múltiples núcleos automáticamente.
+
+* -m MFP: IQ-TREE elige el mejor modelo evolutivo.
+
+* -bb 1000: 1000 réplicas de bootstrap ultrarrápido.
+
+* -alrt 1000: soporte SH-aLRT (test de rama).
+
+#Luego el programa obtenido se debe abrir en FigTree para ver como quedaron las secuencias alineaas en el arbol final
+
+* El programa queda como el PDF adjuntado a parte. 
+
+#si se desea eliminar datos inecesarios como MT....
+
+* Se recomienda trabajar en Atom para borrar en bucle y luego volver a subirlo a hoffman para hacer iqtree
+
+
